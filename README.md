@@ -1,10 +1,9 @@
-*This project has been created as part of the 42 curriculum by cbozkurt.*
-
-# get_next_line 
+# better_next_line 
 
 ## Description
 
 **GET_NEXT_LINE** is a foundational project in the 42 curriculum.  
+**BETTER_NEXT_LINE** is a C++ implementation of the same project.  
 The goal of this project is to create a program that reads the file line by line.
 
 Through this project, students learn:

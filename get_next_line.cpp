@@ -1,4 +1,4 @@
-#include "get_next_line.h";
+#include <iostream>
 using namespace std;
 
 static char	*next_lining(char *stash)

@@ -1,22 +1,18 @@
 #include <iostream>
+#include <unistd.h>
+#include "get_next_line.hpp"
 using namespace std;
 
-static char	*next_lining(char *stash)
+static std::string next_lining(std::string stash)
 {
 	int		i;
 	int		j;
-	char	*line;
+	std::string line;
 
 	i = 0;
 	j = 0;
 	while (stash[i] && stash[i] != '\n')
 		i++;
-	if (stash[i] == '\n')
-		line = malloc(i + 2);
-	else
-		line = malloc(i + 1);
-	if (!line)
-		return (NULL);
 	while (j < i)
 	{
 		line[j] = stash[j];
@@ -28,39 +24,25 @@ static char	*next_lining(char *stash)
 	return (line);
 }
 
-static char	*read_as_buffer(int fd, char *stash)
+static std::string read_as_buffer(int fd, std::string stash)
 {
-	char	*buffer;
-	char	*holder;
 	int		bytes_to_read;
 
-	buffer = malloc(BUFFER_SIZE + 1);
-	if (!buffer)
-		return (NULL);
+	char buf[BUFFER_SIZE + 1];
 	bytes_to_read = 1;
-	while (!ft_strchr(stash, '\n') && bytes_to_read != 0)
+	while (stash.find('\n') == std::string::npos && bytes_to_read != 0)
 	{
-		bytes_to_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_to_read == -1)
-		{
-			free(buffer);
-			free(stash);
-			return (NULL);
-		}
-		buffer[bytes_to_read] = '\0';
-		holder = ft_strjoin(stash, buffer);
-		free(stash);
-		stash = holder;
+		bytes_to_read = read(fd, buf, BUFFER_SIZE);
+		stash += std::string(buf, bytes_to_read);
 	}
-	free(buffer);
 	return (stash);
 }
 
-static char	*clean_stash(char *stash)
+static std::string clean_stash(std::string stash)
 {
 	int			i;
 	int			j;
-	char		*new;
+	std::string _new;
 
 	i = 0;
 	j = 0;
@@ -69,26 +51,26 @@ static char	*clean_stash(char *stash)
 	i += (stash[i] == '\n');
 	if (!stash[i])
 	{
-		new = malloc(1);
-		if (!new)
+		_new = malloc(1);
+		if (!_new)
 			return (NULL);
-		new[0] = '\0';
+		_new[0] = '\0';
 		free(stash);
-		return (new);
+		return (_new);
 	}
-	new = malloc(ft_strlen(stash) - i + 1);
-	if (!new)
+	_new = malloc(ft_strlen(stash) - i + 1);
+	if (!_new)
 		return (NULL);
 	while (stash[i])
-		new[j++] = stash[i++];
-	new[j] = '\0';
-	return (free(stash), new);
+		_new[j++] = stash[i++];
+	_new[j] = '\0';
+	return (free(stash), _new);
 }
 
-char	*get_next_line(int fd)
+std::string get_next_line(int fd)
 {
-	static char	*stash;
-	char		*chosen_one;
+	static std::string stash;
+	std::string	chosen_one;
 
 	if (!stash)
 	{

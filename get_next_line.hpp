@@ -5,12 +5,8 @@
 #  define BUFFER_SIZE 1
 # endif
 
-# include <stddef.h>
+# include <string>
 
-char	*get_next_line(int fd);
-char	*ft_strchr(const char *s, int ch);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strdup(const char *s);
-size_t	ft_strlen(const char *s);
+std::string get_next_line(int fd);
 
 #endif
